@@ -69,10 +69,12 @@ def guardar_usuarios(request_body):
         # Guardar la ruta y subir la imagen al bucket
         nombre_bucket = 'lotus-storage'
         region_s3 = '.s3.us-east-2.'
-        url_imagen = 'https://' + nombre_bucket + region_s3 + 'amazonaws.com' + '/' + random_uuid + '.png'
+        url_imagen = 'https://' + nombre_bucket + region_s3 + 'amazonaws.com' + '/imagenes/' + random_uuid + '.png'
         
-        s3.put_object(Bucket=nombre_bucket, Key='imagenes/'+random_uuid+'.png', Body=imagen_decodificada)
-        
+        # Poner el objecto dentro de la carpeta imagenes
+        objeto_s3_bucket = 'imagenes/'+random_uuid+'.png'
+        s3.put_object(Bucket=nombre_bucket, Key=objeto_s3_bucket, Body=imagen_decodificada, ACL='public-read')
+
         
         # Filtrar solo los campos requeridos
         usuario = {
