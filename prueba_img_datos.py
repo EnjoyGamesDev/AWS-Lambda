@@ -24,7 +24,6 @@ def generate_random_data():
     random_edad = random.randint(18, 80)
     
     return {
-        'id': random_uuid,
         'nombre': random_nombre,
         'correo': random_correo,
         'edad': random_edad
