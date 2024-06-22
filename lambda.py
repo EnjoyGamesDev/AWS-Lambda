@@ -63,20 +63,20 @@ def guardar_usuarios(request_body):
         # Decodificar la imagen (Base64)
         imagen_decodificada = base64.b64decode(request_body.get('imagen'))
         
-        # Renombrar la imagen con un nombre aleatorio
-        nombre_imagen = ''.join(str(uuid.uuid4()))
+        # Generar un UUID para el ID de usuario y la imagen
+        random_uuid = ''.join(str(uuid.uuid4()))
         
         # Guardar la ruta y subir la imagen al bucket
         nombre_bucket = 'lotus-storage'
         region_s3 = '.s3.us-east-2.'
-        url_imagen = 'https://' + nombre_bucket + region_s3 + 'amazonaws.com' + '/' + nombre_imagen + '.png'
+        url_imagen = 'https://' + nombre_bucket + region_s3 + 'amazonaws.com' + '/' + random_uuid + '.png'
         
-        s3.put_object(Bucket=nombre_bucket, Key='imagenes/'+nombre_imagen+'.png', Body=imagen_decodificada)
+        s3.put_object(Bucket=nombre_bucket, Key='imagenes/'+random_uuid+'.png', Body=imagen_decodificada)
         
         
         # Filtrar solo los campos requeridos
         usuario = {
-            'id': request_body.get('id'),
+            'id': random_uuid,
             'nombre': request_body.get('nombre'),
             'correo': request_body.get('correo'),
             'edad': int(request_body.get('edad', 0)),  # Convertir a entero
